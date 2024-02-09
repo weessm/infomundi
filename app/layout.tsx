@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Averia_Serif_Libre } from "next/font/google";
 import "./globals.css";
+import HeaderComponent from "./components/Header";
 
 const averiaSerifLibre = Averia_Serif_Libre({
   weight: ["400", "700"],
@@ -24,14 +25,12 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body className={averiaSerifLibre.className}>
-        <main className="bg-gray-100 min-h-screen">
-          <nav className="w-full bg-white h-16 flex items-center justify-center">
-            <section className="container flex items-center">
-              <h1 className="font-bold text-2xl">InfoMundi</h1>
-            </section>
-          </nav>
+        <div className="bg-gray-100 min-h-screen flex flex-col items-center">
+          <header className="w-full">
+            <HeaderComponent />
+          </header>
           {children}
-        </main>
+        </div>
       </body>
     </html>
   );

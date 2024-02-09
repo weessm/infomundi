@@ -1,3 +1,3 @@
 export default function Home() {
-  return <main>Lista</main>;
+  return <section className="flex w-full container">Lista</section>;
 }
