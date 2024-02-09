@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { Country } from "./types/CountryType";
+import { Country } from "../types/CountryType";
 
 async function getCountries(): Promise<Country[]> {
   const response: Response = await fetch("https://restcountries.com/v3.1/all");

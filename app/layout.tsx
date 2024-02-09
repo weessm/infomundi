@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Averia_Serif_Libre } from "next/font/google";
 import "./globals.css";
-import HeaderComponent from "./components/Header";
+import HeaderComponent from "../components/Header";
 
 const averiaSerifLibre = Averia_Serif_Libre({
   weight: ["400", "700"],
