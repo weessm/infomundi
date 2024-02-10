@@ -21,7 +21,7 @@ export default async function CountryPage({
   return (
     <section className="flex flex-col container">
       <h1 className="text-5xl text-center font-bold text-gray-800 my-16">
-        {country.name.official}
+        {country.name.common}
       </h1>
       <Link href={"/"} className="flex items-center py-2 gap-2 text-lg w-fit">
         <Image src={"/back-arrow.svg"} alt="Back icon" width={16} height={16} />
@@ -38,7 +38,7 @@ export default async function CountryPage({
             <div>
               {Object.values(country.capital).map((capital) => (
                 <span
-                  key={capital}
+                  key={`${capital}${country.population}`}
                   className="inline-block px-2 bg-indigo-700 w-fit text-white rounded-full mr-2 text-sm"
                 >
                   {capital}
@@ -56,7 +56,7 @@ export default async function CountryPage({
             <b>👩🏻‍🤝‍🧑🏽 Demonym:</b> {country.demonyms.eng.m}
           </h2>
           <h2 className="text-xl text-gray-800 mt-3">
-            <b>🗣️ Official Language:</b>
+            <b>🗣️ Language:</b>
             <div>
               {Object.values(country.languages).map((language) => (
                 <span
@@ -76,12 +76,35 @@ export default async function CountryPage({
                   key={currency.symbol}
                   className="inline-block px-2 bg-indigo-700 w-fit text-white rounded-full mr-2 text-sm"
                 >
-                  {currency.name} - {currency.symbol}
+                  {currency.name}{" "}
+                  {!currency.symbol ? "" : `( ${currency.symbol} )`}
+                </span>
+              ))}
+            </div>
+          </h2>
+          <h2 className="text-xl text-gray-800 mt-3">
+            <b>🕒 Timezone:</b>{" "}
+            <div>
+              {Object.values(country.timezones).map((time) => (
+                <span
+                  key={time}
+                  className="inline-block px-2 bg-indigo-700 w-fit text-white rounded-full mr-2 text-sm"
+                >
+                  {time}
                 </span>
               ))}
             </div>
           </h2>
         </section>
+        <div className="relative w-1/2">
+          <Image
+            src={country.flags.svg}
+            alt={country.flags.alt}
+            width={500}
+            height={336}
+            className="object-cover shadow-2xl border-slate-100 border-2 rounded-xl"
+          />
+        </div>
       </article>
     </section>
   );

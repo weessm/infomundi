@@ -30,4 +30,5 @@ export type Country = {
     googleMaps: string;
     openStreetMaps: string;
   };
+  timezones: string[];
 };
