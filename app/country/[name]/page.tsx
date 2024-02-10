@@ -29,25 +29,28 @@ export default async function CountryPage({
       </Link>
 
       <article className="flex justify-between min-w-full p-10 bg-white rounded-xl">
-        <section>
+        <section className="flex flex-col w-2/5">
           <h2 className="text-xl text-gray-800 mt-3">
             <b>🆔 Official Name:</b> {country.name.official}
           </h2>
+          {country.capital && (
+            <h2 className="text-xl text-gray-800 mt-3">
+              <b>🏙️ Capital:</b>
+              <div>
+                {Object.values(country.capital).map((capital) => (
+                  <span
+                    key={`${capital}${country.population}`}
+                    className="inline-block px-2 bg-indigo-700 w-fit text-white rounded-full mr-2 text-sm"
+                  >
+                    {capital}
+                  </span>
+                ))}
+              </div>
+            </h2>
+          )}
           <h2 className="text-xl text-gray-800 mt-3">
-            <b>🏙️ Capital:</b>
-            <div>
-              {Object.values(country.capital).map((capital) => (
-                <span
-                  key={`${capital}${country.population}`}
-                  className="inline-block px-2 bg-indigo-700 w-fit text-white rounded-full mr-2 text-sm"
-                >
-                  {capital}
-                </span>
-              ))}
-            </div>
-          </h2>
-          <h2 className="text-xl text-gray-800 mt-3">
-            <b>🗺️ Region:</b> {country.region} - {country.subregion}
+            <b>🗺️ Region:</b> {country.region}{" "}
+            {country.subregion && `- ${country.subregion}`}
           </h2>
           <h2 className="text-xl text-gray-800 mt-3">
             <b>👪 Population:</b> {formatter.format(country.population)}
@@ -55,33 +58,37 @@ export default async function CountryPage({
           <h2 className="text-xl text-gray-800 mt-3">
             <b>👩🏻‍🤝‍🧑🏽 Demonym:</b> {country.demonyms.eng.m}
           </h2>
-          <h2 className="text-xl text-gray-800 mt-3">
-            <b>🗣️ Language:</b>
-            <div>
-              {Object.values(country.languages).map((language) => (
-                <span
-                  key={language}
-                  className="inline-block px-2 bg-indigo-700 w-fit text-white rounded-full mr-2 text-sm"
-                >
-                  {language}
-                </span>
-              ))}
-            </div>
-          </h2>
-          <h2 className="text-xl text-gray-800 mt-3">
-            <b>💰 Currency:</b>
-            <div>
-              {Object.values(country.currencies).map((currency) => (
-                <span
-                  key={currency.symbol}
-                  className="inline-block px-2 bg-indigo-700 w-fit text-white rounded-full mr-2 text-sm"
-                >
-                  {currency.name}{" "}
-                  {!currency.symbol ? "" : `( ${currency.symbol} )`}
-                </span>
-              ))}
-            </div>
-          </h2>
+          {country.languages && (
+            <h2 className="text-xl text-gray-800 mt-3">
+              <b>🗣️ Language:</b>
+              <div>
+                {Object.values(country.languages).map((language) => (
+                  <span
+                    key={language}
+                    className="inline-block px-2 bg-indigo-700 w-fit text-white rounded-full mr-2 text-sm"
+                  >
+                    {language}
+                  </span>
+                ))}
+              </div>
+            </h2>
+          )}
+          {country.currencies && (
+            <h2 className="text-xl text-gray-800 mt-3">
+              <b>💰 Currency:</b>
+              <div>
+                {Object.values(country.currencies).map((currency) => (
+                  <span
+                    key={currency.symbol}
+                    className="inline-block px-2 bg-indigo-700 w-fit text-white rounded-full mr-2 text-sm"
+                  >
+                    {currency.name}{" "}
+                    {currency.symbol && `( ${currency.symbol} )`}
+                  </span>
+                ))}
+              </div>
+            </h2>
+          )}
           <h2 className="text-xl text-gray-800 mt-3">
             <b>🕒 Timezone:</b>{" "}
             <div>

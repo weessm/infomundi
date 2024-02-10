@@ -7,8 +7,8 @@ async function getCountries(): Promise<Country[]> {
   const countries: Country[] = await response.json();
 
   countries.sort((a, b) => {
-    const nameA = a.name.common.toUpperCase();
-    const nameB = b.name.common.toUpperCase();
+    const nameA = a.name.common.toLowerCase();
+    const nameB = b.name.common.toLowerCase();
     if (nameA < nameB) {
       return -1;
     }
