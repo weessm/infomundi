@@ -11,7 +11,7 @@ const averiaSerifLibre = Averia_Serif_Libre({
 export const metadata: Metadata = {
   title: "InfoMundi",
   description:
-    "InfoMundi é a ferramenta ideal para quem busca conhecimento sobre diferentes países e regiões do globo.",
+    "InfoMundi is an excellent resource for acquiring knowledge about various countries and regions across the world.",
   icons: {
     icon: "/logo.svg",
   },
@@ -23,7 +23,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-br">
+    <html lang="en">
       <body className={averiaSerifLibre.className}>
         <div className="bg-gray-100 min-h-screen flex flex-col items-center">
           <header className="w-full">

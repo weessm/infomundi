@@ -9,20 +9,6 @@ async function getCountryByName(name: string): Promise<Country> {
   return (await response.json())[0];
 }
 
-function getCurrencyName(country: Country): string[] {
-  const currencyName = Object.values(country.currencies).map(
-    (currency) => currency.name
-  );
-  return currencyName;
-}
-
-function getOfficialNativeName(country: Country): string[] {
-  const nativeName = Object.values(country.name.nativeName).map(
-    (name) => name.official
-  );
-  return nativeName;
-}
-
 export default async function CountryPage({
   params: { name },
 }: {
@@ -30,37 +16,44 @@ export default async function CountryPage({
 }) {
   const country = await getCountryByName(name);
 
+  const formatter = Intl.NumberFormat("en", { notation: "compact" });
+
   return (
     <section className="flex flex-col container">
       <h1 className="text-5xl text-center font-bold text-gray-800 my-16">
-        {country.translations.por.common}
+        {country.name.official}
       </h1>
       <Link href={"/"} className="flex items-center py-2 gap-2 text-lg w-fit">
-        <Image
-          src={"/back-arrow.svg"}
-          alt="Ícone de voltar"
-          width={16}
-          height={16}
-        />
-        Voltar
+        <Image src={"/back-arrow.svg"} alt="Back icon" width={16} height={16} />
+        Back
       </Link>
 
       <article className="flex justify-between min-w-full p-10 bg-white rounded-xl">
         <section>
           <h2 className="text-xl text-gray-800 mt-3">
-            <b>🆔 Nome Oficial:</b> {getOfficialNativeName(country)}
+            <b>🆔 Official Name:</b> {country.name.official}
           </h2>
           <h2 className="text-xl text-gray-800 mt-3">
-            <b>🏙️ Capital:</b> {country.capital}
+            <b>🏙️ Capital:</b>
+            <div>
+              {Object.values(country.capital).map((capital) => (
+                <span
+                  key={capital}
+                  className="inline-block px-2 bg-indigo-700 w-fit text-white rounded-full mr-2 text-sm"
+                >
+                  {capital}
+                </span>
+              ))}
+            </div>
           </h2>
           <h2 className="text-xl text-gray-800 mt-3">
-            <b>🗺️ Continente:</b> {country.region} - {country.subregion}
+            <b>🗺️ Region:</b> {country.region} - {country.subregion}
           </h2>
           <h2 className="text-xl text-gray-800 mt-3">
-            <b>👨 População:</b> {country.population}
+            <b>👨 Population:</b> {formatter.format(country.population)}
           </h2>
           <h2 className="text-xl text-gray-800 mt-3">
-            <b>🗣️ Línguas Faladas:</b>
+            <b>🗣️ Official Language:</b>
             <div>
               {Object.values(country.languages).map((language) => (
                 <span
@@ -73,7 +66,17 @@ export default async function CountryPage({
             </div>
           </h2>
           <h2 className="text-xl text-gray-800 mt-3">
-            <b>💰 Moeda:</b> {getCurrencyName(country)}
+            <b>💰 Currency:</b>
+            <div>
+              {Object.values(country.currencies).map((currency) => (
+                <span
+                  key={currency}
+                  className="inline-block px-2 bg-indigo-700 w-fit text-white rounded-full mr-2 text-sm"
+                >
+                  {currency.name}
+                </span>
+              ))}
+            </div>
           </h2>
         </section>
       </article>
