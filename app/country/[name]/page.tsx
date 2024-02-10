@@ -50,7 +50,10 @@ export default async function CountryPage({
             <b>🗺️ Region:</b> {country.region} - {country.subregion}
           </h2>
           <h2 className="text-xl text-gray-800 mt-3">
-            <b>👨 Population:</b> {formatter.format(country.population)}
+            <b>👪 Population:</b> {formatter.format(country.population)}
+          </h2>
+          <h2 className="text-xl text-gray-800 mt-3">
+            <b>👩🏻‍🤝‍🧑🏽 Demonym:</b> {country.demonyms.eng.m}
           </h2>
           <h2 className="text-xl text-gray-800 mt-3">
             <b>🗣️ Official Language:</b>
@@ -70,10 +73,10 @@ export default async function CountryPage({
             <div>
               {Object.values(country.currencies).map((currency) => (
                 <span
-                  key={currency}
+                  key={currency.symbol}
                   className="inline-block px-2 bg-indigo-700 w-fit text-white rounded-full mr-2 text-sm"
                 >
-                  {currency.name}
+                  {currency.name} - {currency.symbol}
                 </span>
               ))}
             </div>
