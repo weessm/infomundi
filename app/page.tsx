@@ -1,23 +1,27 @@
 import { Country } from "../types/CountryType";
 import CountryCardComponent from "@/components/CountryCard";
+import handleError from "@/errors/HandleError";
 
 async function getCountries(): Promise<Country[]> {
-  const response: Response = await fetch("https://restcountries.com/v3.1/all");
-  const countries: Country[] = await response.json();
-
-  countries.sort((a, b) => {
-    const nameA = a.name.common.toLowerCase();
-    const nameB = b.name.common.toLowerCase();
-    if (nameA < nameB) {
-      return -1;
+  try {
+    const response: Response = await fetch(
+      "https://restcountries.com/v3.1/all"
+    );
+    if (!response.ok) {
+      throw new Error(handleError.fetchCountryError());
     }
-    if (nameA > nameB) {
-      return 1;
-    }
-    return 0;
-  });
 
-  return countries;
+    const countries: Country[] = await response.json();
+    countries.sort((a, b) => {
+      const nameA = a.name && a.name.common ? a.name.common.toLowerCase() : "";
+      const nameB = b.name && b.name.common ? b.name.common.toLowerCase() : "";
+      return nameA.localeCompare(nameB);
+    });
+
+    return countries;
+  } catch (error) {
+    throw new Error(handleError.fetchCountryError());
+  }
 }
 
 export default async function Home() {

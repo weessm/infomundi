@@ -19,7 +19,6 @@ export type Country = {
     svg: string;
     alt: string;
   };
-  tld: string[];
   currencies: {
     [key: string]: {
       name: string;

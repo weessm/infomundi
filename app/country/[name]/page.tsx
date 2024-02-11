@@ -2,24 +2,26 @@ import type { Country } from "@/types/CountryType";
 import Image from "next/image";
 import CountryCardComponent from "@/components/CountryCard";
 import LinkComponent from "@/components/Link";
+import handleError from "@/errors/HandleError";
 
 async function getCountryByName(name: string): Promise<Country> {
   try {
-    const response = await fetch(`https://restcountries.com/v3.1/name/${name}`);
+    const response = await fetch("https://restcountries.com/v3.1/all");
     if (!response.ok) {
-      throw new Error("Error fetching country. Check spelling and try again");
+      throw new Error(handleError.fetchCountryError());
     }
+
     const countries: Country[] = await response.json();
     const foundCountry = countries.find(
       (country: Country) =>
         country.name.common.toLowerCase() === name.toLowerCase()
     );
     if (!foundCountry) {
-      throw new Error("Country not found. Check spelling and try again");
+      throw new Error(handleError.countryNotFoundError());
     }
     return foundCountry!;
   } catch (error) {
-    throw new Error("Error fetching country. Check spelling and try again");
+    throw new Error(handleError.countryNotFoundError());
   }
 }
 
@@ -29,8 +31,9 @@ async function getCountryBorderByName(
   try {
     const response = await fetch("https://restcountries.com/v3.1/all");
     if (!response.ok) {
-      throw new Error("Error fetching countries");
+      throw new Error(handleError.fetchCountryError());
     }
+
     const countries: Country[] = await response.json();
 
     const country = countries.find(
@@ -38,7 +41,7 @@ async function getCountryBorderByName(
         country.name.common.toLowerCase() === name.toLowerCase()
     );
     if (!country) {
-      throw new Error("Country not found. Check spelling and try again");
+      throw new Error(handleError.countryNotFoundError());
     }
 
     if (!country.borders) {
@@ -59,7 +62,7 @@ async function getCountryBorderByName(
 
     return borderCountries;
   } catch (error) {
-    throw new Error("Error fetching country borders");
+    throw new Error(handleError.fetchCountryBorderError());
   }
 }
 
@@ -91,7 +94,7 @@ export default async function CountryPage({
               <div>
                 {Object.values(country.capital).map((capital) => (
                   <span
-                    key={`${capital}${country.population}`}
+                    key={country.population}
                     className="inline-block px-2 bg-indigo-700 w-fit text-white rounded-full mr-2 text-sm"
                   >
                     {capital}
