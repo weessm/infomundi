@@ -1,35 +1,66 @@
 import type { Country } from "@/types/CountryType";
-import Link from "next/link";
 import Image from "next/image";
 import CountryCardComponent from "@/components/CountryCard";
+import LinkComponent from "@/components/Link";
 
 async function getCountryByName(name: string): Promise<Country> {
-  const response = await fetch("https://restcountries.com/v3.1/all");
-  const countries: Country[] = await response.json();
-
-  return countries.find(
-    (country: Country) => country.name.common.toLowerCase() === name
-  )!;
+  try {
+    const response = await fetch(`https://restcountries.com/v3.1/name/${name}`);
+    if (!response.ok) {
+      throw new Error("Error fetching country. Check spelling and try again");
+    }
+    const countries: Country[] = await response.json();
+    const foundCountry = countries.find(
+      (country: Country) =>
+        country.name.common.toLowerCase() === name.toLowerCase()
+    );
+    if (!foundCountry) {
+      throw new Error("Country not found. Check spelling and try again");
+    }
+    return foundCountry!;
+  } catch (error) {
+    throw new Error("Error fetching country. Check spelling and try again");
+  }
 }
 
 async function getCountryBorderByName(
   name: string
 ): Promise<{ name: string; flagSvg: string; flagAlt: string }[]> {
-  const response = await fetch("https://restcountries.com/v3.1/all");
-  const countries: Country[] = await response.json();
+  try {
+    const response = await fetch("https://restcountries.com/v3.1/all");
+    if (!response.ok) {
+      throw new Error("Error fetching countries");
+    }
+    const countries: Country[] = await response.json();
 
-  const country = countries.find(
-    (country: Country) => country.name.common.toLowerCase() === name
-  )!;
+    const country = countries.find(
+      (country: Country) =>
+        country.name.common.toLowerCase() === name.toLowerCase()
+    );
+    if (!country) {
+      throw new Error("Country not found. Check spelling and try again");
+    }
 
-  return country.borders?.map((border) => {
-    const borderCountry = countries.find((country) => country.cca3 === border)!;
-    return {
-      name: borderCountry.name.common,
-      flagSvg: borderCountry.flags.svg,
-      flagAlt: borderCountry.flags.alt,
-    };
-  });
+    if (!country.borders) {
+      return [];
+    }
+
+    const borderCountries = country.borders.map((border) => {
+      const borderCountry = countries.find(
+        (country) => country.cca3 === border
+      )!;
+
+      return {
+        name: borderCountry.name.common,
+        flagSvg: borderCountry.flags.svg,
+        flagAlt: borderCountry.flags.alt,
+      };
+    });
+
+    return borderCountries;
+  } catch (error) {
+    throw new Error("Error fetching country borders");
+  }
 }
 
 export default async function CountryPage({
@@ -47,10 +78,7 @@ export default async function CountryPage({
       <h1 className="text-5xl text-center font-bold text-gray-800 my-16">
         {country.name.common}
       </h1>
-      <Link href={"/"} className="flex items-center py-2 gap-2 text-lg w-fit">
-        <Image src={"/back-arrow.svg"} alt="Back icon" width={16} height={16} />
-        Back to Homepage
-      </Link>
+      <LinkComponent link="/" text="◀ Back to Homepage" target="_self" />
 
       <article className="flex justify-between min-w-full p-10 bg-white rounded-xl">
         <section className="flex flex-col w-2/5">
@@ -137,16 +165,33 @@ export default async function CountryPage({
           />
         </div>
       </article>
+      <div className="flex gap-5 mt-3">
+        <LinkComponent
+          link={country.maps.googleMaps}
+          text="🌐 Google Maps"
+          target="_blank"
+        />
+        <LinkComponent
+          link={country.maps.openStreetMaps}
+          text="🌐 Open Street Maps"
+          target="_blank"
+        />
+        <LinkComponent
+          link={`https://en.wikipedia.org/wiki/${country.name.common}`}
+          text="🌐 Wikipedia"
+          target="_blank"
+        />
+      </div>
       <section>
         <h3 className="mt-12 text-2xl font-semibold text-gray-800">Borders</h3>
-        {borderCountry && (
+        {borderCountry.length > 0 && (
           <div className="grid grid-cols-5 w-full mt-3 mb-16 gap-5">
             {borderCountry.map((border) => (
               <CountryCardComponent key={border.name} {...border} />
             ))}
           </div>
         )}
-        {!borderCountry && (
+        {borderCountry.length <= 0 && (
           <div className="w-full mt-3 mb-16">
             <p className="text-xl text-gray-800 mt-3">
               This country has no land borders
