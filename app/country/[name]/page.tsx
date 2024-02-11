@@ -139,11 +139,20 @@ export default async function CountryPage({
       </article>
       <section>
         <h3 className="mt-12 text-2xl font-semibold text-gray-800">Borders</h3>
-        <div className="grid grid-cols-5 w-full mt-3 gap-5">
-          {borderCountry?.map((border) => (
-            <CountryCardComponent key={border.name} {...border} />
-          ))}
-        </div>
+        {borderCountry && (
+          <div className="grid grid-cols-5 w-full mt-3 mb-16 gap-5">
+            {borderCountry.map((border) => (
+              <CountryCardComponent key={border.name} {...border} />
+            ))}
+          </div>
+        )}
+        {!borderCountry && (
+          <div className="w-full mt-3 mb-16">
+            <p className="text-xl text-gray-800 mt-3">
+              This country has no land borders
+            </p>
+          </div>
+        )}
       </section>
     </section>
   );
