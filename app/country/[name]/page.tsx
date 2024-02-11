@@ -83,7 +83,7 @@ export default async function CountryPage({
       </h1>
       <LinkComponent link="/" text="◀ Back to Homepage" target="_self" />
 
-      <article className="flex justify-between min-w-full p-10 bg-white rounded-xl">
+      <article className="flex justify-between min-w-full p-10 bg-slate-300 rounded-xl">
         <section className="flex flex-col w-2/5">
           <h2 className="text-xl text-gray-800 mt-3">
             <b>🆔 Official Name:</b> {country.name.official}
@@ -164,7 +164,7 @@ export default async function CountryPage({
             alt={country.flags.alt}
             width={500}
             height={336}
-            className="object-cover shadow-2xl border-slate-100 border-2 rounded-xl"
+            className="object-cover shadow-2xl border-slate-500 border-1 rounded-lg"
           />
         </div>
       </article>

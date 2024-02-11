@@ -8,7 +8,7 @@ export default function Loading() {
       {Array.from({ length: skeletonCount }).map((_, index) => (
         <article
           key={index}
-          className="h-64 min-w-full p-2 transition-shadow bg-white border-2 border-transparent animate-pulse group rounded-xl hover:shadow-2xl hover:shadow-indigo-200/40 hover:border-indigo-200"
+          className="h-64 min-w-full p-2 transition-shadow bg-slate-100 border-2 border-transparent animate-pulse group rounded-xl hover:shadow-2xl hover:shadow-indigo-200/40 hover:border-indigo-200"
         >
           <div className="flex items-center justify-center w-full h-40 p-2 mb-4 overflow-hidden bg-gray-300 rounded-xl">
             <svg

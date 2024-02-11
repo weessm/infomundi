@@ -14,7 +14,7 @@ const CountryCardComponent = ({
     <Link href={`/country/${name.toLowerCase()}`} passHref>
       <article
         key={name}
-        className="h-64 min-w-full p-2 bg-white border-2 rounded-xl hover:border-indigo-200 hover:shadow-xl transition-all"
+        className="h-64 min-w-full p-2 bg-gray-300 border-gray-300 rounded-xl border-2 hover:border-gray-400 hover:bg-gray-200 hover:shadow-xl transition-all"
       >
         <div className="relative w-full h-40 overflow-hidden p-2 rounded-xl">
           <Image src={flagSvg} alt={flagAlt} fill className="object-cover" />

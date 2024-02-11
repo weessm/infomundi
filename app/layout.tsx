@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={averiaSerifLibre.className}>
-        <div className="bg-gray-100 min-h-screen flex flex-col items-center">
+        <div className="bg-slate-100 min-h-screen flex flex-col items-center">
           <header className="w-full">
             <HeaderComponent />
           </header>
