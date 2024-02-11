@@ -1,6 +1,7 @@
 import type { Country } from "@/types/CountryType";
 import Link from "next/link";
 import Image from "next/image";
+import CountryCardComponent from "@/components/CountryCard";
 
 async function getCountryByName(name: string): Promise<Country> {
   const response = await fetch("https://restcountries.com/v3.1/all");
@@ -11,12 +12,33 @@ async function getCountryByName(name: string): Promise<Country> {
   )!;
 }
 
+async function getCountryBorderByName(
+  name: string
+): Promise<{ name: string; flagSvg: string; flagAlt: string }[]> {
+  const response = await fetch("https://restcountries.com/v3.1/all");
+  const countries: Country[] = await response.json();
+
+  const country = countries.find(
+    (country: Country) => country.name.common.toLowerCase() === name
+  )!;
+
+  return country.borders?.map((border) => {
+    const borderCountry = countries.find((country) => country.cca3 === border)!;
+    return {
+      name: borderCountry.name.common,
+      flagSvg: borderCountry.flags.svg,
+      flagAlt: borderCountry.flags.alt,
+    };
+  });
+}
+
 export default async function CountryPage({
   params: { name },
 }: {
   params: { name: string };
 }) {
   const country = await getCountryByName(decodeURI(name));
+  const borderCountry = await getCountryBorderByName(decodeURI(name));
 
   const formatter = Intl.NumberFormat("en-US", { notation: "compact" });
 
@@ -27,7 +49,7 @@ export default async function CountryPage({
       </h1>
       <Link href={"/"} className="flex items-center py-2 gap-2 text-lg w-fit">
         <Image src={"/back-arrow.svg"} alt="Back icon" width={16} height={16} />
-        Back
+        Back to Homepage
       </Link>
 
       <article className="flex justify-between min-w-full p-10 bg-white rounded-xl">
@@ -115,6 +137,14 @@ export default async function CountryPage({
           />
         </div>
       </article>
+      <section>
+        <h3 className="mt-12 text-2xl font-semibold text-gray-800">Borders</h3>
+        <div className="grid grid-cols-5 w-full mt-3 gap-5">
+          {borderCountry?.map((border) => (
+            <CountryCardComponent key={border.name} {...border} />
+          ))}
+        </div>
+      </section>
     </section>
   );
 }

@@ -31,4 +31,6 @@ export type Country = {
     openStreetMaps: string;
   };
   timezones: string[];
+  borders: string[];
+  cca3: string;
 };
