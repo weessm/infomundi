@@ -3,6 +3,7 @@ import Image from "next/image";
 import CountryCardComponent from "@/components/CountryCard";
 import LinkComponent from "@/components/Link";
 import handleError from "@/errors/HandleError";
+import CountryDetailsComponent from "@/components/CountryDetails";
 
 async function getCountryByName(name: string): Promise<Country> {
   try {
@@ -85,78 +86,7 @@ export default async function CountryPage({
 
       <article className="flex flex-col-reverse lg:flex-row justify-between min-w-full gap-4 p-6 bg-slate-300 rounded-xl">
         <section className="flex flex-col w-full lg:w-1/2">
-          <h2 className="text-xl text-gray-800">
-            <b>🆔 Official Name:</b> {country.name.official}
-          </h2>
-          {country.capital && (
-            <h2 className="text-xl text-gray-800 mt-7">
-              <b>🏙️ Capital:</b>
-              <div>
-                {Object.values(country.capital).map((capital) => (
-                  <span
-                    key={country.population}
-                    className="inline-block px-2 bg-indigo-700 w-fit text-white rounded-full mr-2 text-sm"
-                  >
-                    {capital}
-                  </span>
-                ))}
-              </div>
-            </h2>
-          )}
-          <h2 className="text-xl text-gray-800 mt-7">
-            <b>🗺️ Region:</b> {country.region}{" "}
-            {country.subregion && `- ${country.subregion}`}
-          </h2>
-          <h2 className="text-xl text-gray-800 mt-7">
-            <b>👪 Population:</b> {formatter.format(country.population)}
-          </h2>
-          <h2 className="text-xl text-gray-800 mt-7">
-            <b>👩🏻‍🤝‍🧑🏽 Demonym:</b> {country.demonyms.eng.m}
-          </h2>
-          {country.languages && (
-            <h2 className="text-xl text-gray-800 mt-7">
-              <b>🗣️ Language:</b>
-              <div>
-                {Object.values(country.languages).map((language) => (
-                  <span
-                    key={language}
-                    className="inline-block px-2 bg-indigo-700 w-fit text-white rounded-full mr-2 text-sm"
-                  >
-                    {language}
-                  </span>
-                ))}
-              </div>
-            </h2>
-          )}
-          {country.currencies && (
-            <h2 className="text-xl text-gray-800 mt-7">
-              <b>💰 Currency:</b>
-              <div>
-                {Object.values(country.currencies).map((currency) => (
-                  <span
-                    key={currency.symbol}
-                    className="inline-block px-2 bg-indigo-700 w-fit text-white rounded-full mr-2 text-sm"
-                  >
-                    {currency.name}{" "}
-                    {currency.symbol && `( ${currency.symbol} )`}
-                  </span>
-                ))}
-              </div>
-            </h2>
-          )}
-          <h2 className="text-xl text-gray-800 mt-7">
-            <b>🕒 Timezone:</b>{" "}
-            <div>
-              {Object.values(country.timezones).map((time) => (
-                <span
-                  key={time}
-                  className="inline-block px-2 bg-indigo-700 w-fit text-white rounded-full mr-2 text-sm"
-                >
-                  {time}
-                </span>
-              ))}
-            </div>
-          </h2>
+          <CountryDetailsComponent country={country} />
         </section>
         <div className="relative mb-10 w-full lg:w-1/2 flex items-center justify-center lg:justify-start">
           <Image
