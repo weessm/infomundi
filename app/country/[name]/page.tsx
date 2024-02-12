@@ -78,18 +78,18 @@ export default async function CountryPage({
 
   return (
     <section className="flex flex-col container">
-      <h1 className="text-5xl text-center font-bold text-gray-800 my-16">
-        {country.name.common}
+      <h1 className="text-4xl sm:text-5xl text-center font-bold text-gray-800 my-16">
+        {country.name.common.toUpperCase()}
       </h1>
       <LinkComponent link="/" text="◀ Back to Homepage" target="_self" />
 
-      <article className="flex justify-between min-w-full p-10 bg-slate-300 rounded-xl">
-        <section className="flex flex-col w-2/5">
-          <h2 className="text-xl text-gray-800 mt-3">
+      <article className="flex flex-col-reverse lg:flex-row justify-between min-w-full gap-4 p-6 bg-slate-300 rounded-xl">
+        <section className="flex flex-col w-full lg:w-1/2">
+          <h2 className="text-xl text-gray-800">
             <b>🆔 Official Name:</b> {country.name.official}
           </h2>
           {country.capital && (
-            <h2 className="text-xl text-gray-800 mt-3">
+            <h2 className="text-xl text-gray-800 mt-7">
               <b>🏙️ Capital:</b>
               <div>
                 {Object.values(country.capital).map((capital) => (
@@ -103,18 +103,18 @@ export default async function CountryPage({
               </div>
             </h2>
           )}
-          <h2 className="text-xl text-gray-800 mt-3">
+          <h2 className="text-xl text-gray-800 mt-7">
             <b>🗺️ Region:</b> {country.region}{" "}
             {country.subregion && `- ${country.subregion}`}
           </h2>
-          <h2 className="text-xl text-gray-800 mt-3">
+          <h2 className="text-xl text-gray-800 mt-7">
             <b>👪 Population:</b> {formatter.format(country.population)}
           </h2>
-          <h2 className="text-xl text-gray-800 mt-3">
+          <h2 className="text-xl text-gray-800 mt-7">
             <b>👩🏻‍🤝‍🧑🏽 Demonym:</b> {country.demonyms.eng.m}
           </h2>
           {country.languages && (
-            <h2 className="text-xl text-gray-800 mt-3">
+            <h2 className="text-xl text-gray-800 mt-7">
               <b>🗣️ Language:</b>
               <div>
                 {Object.values(country.languages).map((language) => (
@@ -129,7 +129,7 @@ export default async function CountryPage({
             </h2>
           )}
           {country.currencies && (
-            <h2 className="text-xl text-gray-800 mt-3">
+            <h2 className="text-xl text-gray-800 mt-7">
               <b>💰 Currency:</b>
               <div>
                 {Object.values(country.currencies).map((currency) => (
@@ -144,7 +144,7 @@ export default async function CountryPage({
               </div>
             </h2>
           )}
-          <h2 className="text-xl text-gray-800 mt-3">
+          <h2 className="text-xl text-gray-800 mt-7">
             <b>🕒 Timezone:</b>{" "}
             <div>
               {Object.values(country.timezones).map((time) => (
@@ -158,17 +158,17 @@ export default async function CountryPage({
             </div>
           </h2>
         </section>
-        <div className="relative w-1/2">
+        <div className="relative mb-10 w-full lg:w-1/2 flex items-center justify-center lg:justify-start">
           <Image
             src={country.flags.svg}
             alt={country.flags.alt}
             width={500}
-            height={336}
-            className="object-cover shadow-2xl border-slate-500 border-1 rounded-lg"
+            height={340}
+            className="object-cover mx-auto my-auto shadow-2xl border-slate-500 border-1 rounded-lg"
           />
         </div>
       </article>
-      <div className="flex gap-5 mt-3">
+      <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 mt-4">
         <LinkComponent
           link={country.maps.googleMaps}
           text="🌐 Google Maps"
@@ -188,7 +188,7 @@ export default async function CountryPage({
       <section>
         <h3 className="mt-12 text-2xl font-semibold text-gray-800">Borders</h3>
         {borderCountry.length > 0 && (
-          <div className="grid grid-cols-5 w-full mt-3 mb-16 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full gap-4 mt-6">
             {borderCountry.map((border) => (
               <CountryCardComponent key={border.name} {...border} />
             ))}
