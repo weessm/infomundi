@@ -72,10 +72,8 @@ export default async function CountryPage({
 }: {
   params: { name: string };
 }) {
-  const country = await getCountryByName(decodeURI(name));
-  const borderCountry = await getCountryBorderByName(decodeURI(name));
-
-  const formatter = Intl.NumberFormat("en-US", { notation: "compact" });
+  const country = await getCountryByName(decodeURIComponent(name));
+  const borderCountry = await getCountryBorderByName(decodeURIComponent(name));
 
   return (
     <section className="flex flex-col container">
@@ -84,7 +82,7 @@ export default async function CountryPage({
       </h1>
       <LinkComponent link="/" text="◀ Back to Homepage" target="_self" />
 
-      <article className="flex flex-col-reverse lg:flex-row justify-between min-w-full gap-4 p-6 bg-slate-300 rounded-xl">
+      <article className="flex flex-col-reverse lg:flex-row justify-between min-w-full gap-4 p-10 bg-slate-300 rounded-xl">
         <section className="flex flex-col w-full lg:w-1/2">
           <CountryDetailsComponent country={country} />
         </section>
@@ -118,7 +116,7 @@ export default async function CountryPage({
       <section>
         <h3 className="mt-12 text-2xl font-semibold text-gray-800">Borders</h3>
         {borderCountry.length > 0 && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full gap-4 mt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 w-full gap-4 mt-6 mb-16">
             {borderCountry.map((border) => (
               <CountryCardComponent key={border.name} {...border} />
             ))}
