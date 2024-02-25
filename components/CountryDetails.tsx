@@ -8,20 +8,14 @@ const CountryDetailsComponent = ({ country }: { country: Country }) => {
 
   const formatter = new Intl.NumberFormat("en-US");
 
-  const renderDetails = (label: string, value: string | number) => (
-    <h2 className="text-xl text-gray-800 mt-7">
-      <b>{label}</b> {value}
-    </h2>
-  );
-
-  const renderList = (label: string, list: string[]) => (
-    <h2 className="text-xl text-gray-800 mt-7">
+  const renderDetailList = (label: string, list: string[] | string) => (
+    <h2 className="text-xl text-gray-800 mt-3">
       <b>{label}</b>
       <div>
         {Object.values(list).map((item) => (
           <span
             key={item}
-            className="inline-block px-2 bg-gray-600 w-fit text-white rounded-full mr-2 text-base"
+            className="inline-block px-4 bg-gray-600 w-fit text-white rounded-full my-1 mr-2 text-lg"
           >
             {item}
           </span>
@@ -32,26 +26,36 @@ const CountryDetailsComponent = ({ country }: { country: Country }) => {
 
   return (
     <>
-      {renderDetails("🆔 Official Name:", country.name.official)}
-      {country.capital && renderDetails("🏙️ Capital:", country.capital)}
-      {renderDetails(
-        "🗺️ Region:",
-        `${country.region} ${country.subregion ? `- ${country.subregion}` : ""}`
-      )}
-      {renderDetails("👪 Population:", formatter.format(country.population))}
-      {renderDetails("👩🏻‍🤝‍🧑🏽 Demonym:", country.demonyms.eng.m)}
+      {renderDetailList("🆔 Official Name:", [country.name.official])}
+      {country.capital && renderDetailList("🏙️ Capital:", country.capital)}
+      {renderDetailList("🗺️ Region:", [
+        `${country.region} ${
+          country.subregion ? `- ${country.subregion}` : ""
+        }`,
+      ])}
+      {renderDetailList("👪 Population:", [
+        `${
+          country.population > 0
+            ? formatter.format(country.population)
+            : "Uninhabited"
+        }`,
+      ])}
+      {country.demonyms &&
+        renderDetailList("🧑 Demonym:", country.demonyms.eng.m.split(","))}
       {country.languages &&
-        renderList("🗣️ Language:", Object.values(country.languages))}
+        renderDetailList("🗣️ Language:", Object.values(country.languages))}
       {country.currencies &&
-        renderList(
+        renderDetailList(
           "💰 Currency:",
           Object.values(country.currencies).map(
             (currency) =>
-              `${currency.name} ${currency.symbol && `( ${currency.symbol} )`}`
+              `${currency.name} ${
+                currency.symbol ? `( ${currency.symbol} )` : ""
+              }`
           )
         )}
       {country.timezones &&
-        renderList("⌛ Timezone:", Object.values(country.timezones))}
+        renderDetailList("⌛ Timezone:", Object.values(country.timezones))}
     </>
   );
 };
